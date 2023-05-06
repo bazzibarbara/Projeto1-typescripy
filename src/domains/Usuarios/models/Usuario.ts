@@ -1,6 +1,6 @@
 const database = require('../../../../database/index');
 const {DataTypes} = require('sequelize');
-const userRoles = require('../constants/userRoles.js');
+const userRoles = require('../constants/userRoles.ts');
 
 const Usuario = database.define('Usuario', {
     id: {

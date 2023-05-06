@@ -1,10 +1,9 @@
 /* eslint-disable no-unused-vars */
-const router =  require('express').Router();
+import {Router, Request, Response, NextFunction} from 'express';
 const statusCodes = require('../../../../constants/statusCodes');
 const UsuarioService = require('../service/UsuarioService');
-const {loginMiddleware, verifyJWT, checkRole, notLoggedIn} = require('../../../middlewares/auth-middlewares.js');
+const {loginMiddleware, verifyJWT, checkRole, notLoggedIn} = require('../../../middlewares/auth-middlewares.ts');
 
-<<<<<<< HEAD
 router.post('/login', notLoggedIn, loginMiddleware);
 
 router.post('/logout', 
@@ -17,12 +16,6 @@ router.post('/logout',
             next(error);
         }
     },
-=======
-router.post('/login', notLoggedIn/*checagem se o usuario ja esta logado*/, loginMiddleware);
-verifyJWT
-router.post('/logout', logoutMiddleware
-verifyJWT,
->>>>>>> d51fe6f (feat instalação npm typescript)
 );
 
 router.put('/:id',
@@ -96,4 +89,4 @@ router.delete('/delete/:id', async(req,res) =>{
 });
 
 
-module.exports = router;
+export const router = Router();

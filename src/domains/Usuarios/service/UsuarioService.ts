@@ -1,7 +1,7 @@
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 const User = require('../models/Usuario');
-const userRoles = require('../constants/userRoles.js');
+const userRoles = require('../constants/userRoles.ts');
 
 const QueryError = require('../../../../errors/QueryError');
 const PermissionError = require('../../../../errors/PermissionError');
