@@ -5,7 +5,11 @@ const client_url = process.env.CLIENT_URL;
 require('express-async-errors');
 const express = require ('express');
 const app = express();
-
+const options: CorsOptions ={
+    origin: process.env.APP_URL,
+    credentials: true 
+};
+app.use(cors(options));
 const cors = require('cors');
 app.use(cors(
     {

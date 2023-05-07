@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 const InvalidParamError = require('../../errors/InvalidParamError');
-const NotAuthorizedError = require('../../errors/NotAuthorizedError.js');
+const NotAuthorizedError = require('../../errors/NotAuthorizedError.ts');
 const TokenError = require('../../errors/TokenError');
 const QueryError = require('../../errors/QueryError');
-const statusCodes = require('../../constants/statusCodes.js');
+const statusCodes = require('../../constants/statusCodes.ts');
 
 function errorHandler(error, req, res, next){
     let message = error.message;
