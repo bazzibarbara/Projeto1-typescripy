@@ -1,32 +1,32 @@
-/* eslint-disable no-unused-vars */
-const InvalidParamError = require('../../errors/InvalidParamError');
-const NotAuthorizedError = require('../../errors/NotAuthorizedError.ts');
-const TokenError = require('../../errors/TokenError');
-const QueryError = require('../../errors/QueryError');
-const statusCodes = require('../../constants/statusCodes.ts');
+import { Request, Response, NextFunction } from 'express';
+import InvalidParamError from '../../errors/InvalidParamError';
+import NotAuthorizedError from '../../errors/NotAuthorizedError';
+import TokenError from '../../errors/TokenError';
+import QueryError from '../../errors/QueryError';
+import { internalServerError, badRequest, forbidden, notFound } from '../../constants/statusCodes';
 
-function errorHandler(error, req, res, next){
-    let message = error.message;
-    let status = statusCodes.internalServerError;
+function errorHandler(error: Error, req: Request, res: Response, next: NextFunction): void {
+  let message = error.message;
+  let status = internalServerError;
   
-    if (error instanceof InvalidParamError) {
-        status = statusCodes.badRequest;
-    }
+  if (error instanceof InvalidParamError) {
+    status = badRequest;
+  }
 
-    if (error instanceof NotAuthorizedError) {
-        status = statusCodes.forbidden;
-    }
+  if (error instanceof NotAuthorizedError) {
+    status = forbidden;
+  }
 
-    if (error instanceof TokenError) {
-        status = statusCodes.notFound;
-    }
+  if (error instanceof TokenError) {
+    status = notFound;
+  }
 
-    if (error instanceof QueryError) {
-        status = statusCodes.badRequest;
-    }
+  if (error instanceof QueryError) {
+    status = badRequest;
+  }
 
-    console.log(error);
-    res.status(status).json(message);
+  console.log(error);
+  res.status(status).json(message);
 }
 
-module.exports = errorHandler;
+export default errorHandler;
