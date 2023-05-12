@@ -1,5 +1,9 @@
-/* eslint-disable no-undef */
-const app = require('./config/expressConfig');
-const port = process.env.PORT;
+import express, { Application } from 'express';
+import { Server } from 'http';
 
-app.listen(port, console.log(`Server is running on port ${port}`));
+const app: Application = express();
+const port: number = Number(process.env.PORT);
+
+const server: Server = app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
