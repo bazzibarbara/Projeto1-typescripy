@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
   "compilerOptions": {
     "esModuleInterop": true
   }
+
 }
 
 import musicaRouter from '../src/domains/Musicas/controllers/MusicaController.ts';
