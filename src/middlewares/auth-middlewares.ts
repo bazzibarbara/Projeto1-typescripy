@@ -1,97 +1,119 @@
-/* eslint-disable no-undef */
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require ('../domains/Usuarios/models/Usuario.js');
-const PermissionError = require('../../errors/InvalidParamError.js');
-const statusCodes = require('../../constants/statusCodes.js');
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import { Request, Response, NextFunction } from 'express';
+import { User } from '../domains/Usuarios/models/Usuario';
+import PermissionError from '../../errors/InvalidParamError';
+import statusCodes from '../../constants/statusCodes';
 
-function generateJWT(user, res){
-    const body = {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-    };
-
-    const token = jwt.sign ({ user: body }, process.env.SECRET_KEY,
-        {   expiresIn: process.env.JWT_EXPIRATION });
-
-    res.cookie('jwt', token, {
-        httpOnly: true,
-        secure: process.env.NODE_EMV !== 'development',
-    });
+interface DecodedToken {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+  };
 }
 
-function cookieExtractor(req) {
-    let token = null;
+function generateJWT(user: User, res: Response): void {
+  const body = {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+  };
 
-    if(req && req.cookies){
-        token = req.cookies['jwt'];
+  const token = jwt.sign({ user: body }, process.env.SECRET_KEY, {
+    expiresIn: process.env.JWT_EXPIRATION,
+  });
+
+  res.cookie('jwt', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== 'development',
+  });
+}
+
+function cookieExtractor(req: Request): string | null {
+  let token = null;
+
+  if (req && req.cookies) {
+    token = req.cookies['jwt'];
+  }
+
+  return token;
+}
+
+function verifyJWT(req: Request, res: Response, next: NextFunction): void {
+  try {
+    const token = cookieExtractor(req);
+
+    if (token) {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY) as DecodedToken;
+      req.user = decoded.user;
     }
 
-    return token;
-}
-
-function verifyJWT(req,res,next){
-    try{
-        const token = cookieExtractor(req);
-
-        if(token){
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            req.user = decoded.user;
-        }
-
-        if(!req.user){
-            throw new PermissionError(
-                'Você precisa estar logado para realizar essa ação!');
-        }
-        next();
-    } catch(error) {
-        next(error);
+    if (!req.user) {
+      throw new PermissionError('Você precisa estar logado para realizar essa ação!');
     }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
 }
 
-async function loginMiddleware(req, res, next ){
+async function loginMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const user = await User.findOne({ where: { email: req.body.email } });
+
+    if (!user) {
+      throw new PermissionError('E-mail e/ou senha incorretos');
+    } else {
+      const matchingPassword = await bcrypt.compare(req.body.password, user.password);
+
+      if (!matchingPassword) {
+        throw new PermissionError('E-mail e/ou senha incorretos');
+      }
+    }
+
+    generateJWT(user, res);
+
+    res.status(statusCodes.noContent).end();
+  } catch (error) {
+    next(error);
+  }
+}
+
+function notLoggedIn(req: Request, res: Response, next: NextFunction): void {
+  try {
+    const token = cookieExtractor(req);
+
+    if (token) {
+      const decoded = jwt.verify(token, process.env.SECRET_KEY) as DecodedToken;
+
+      if (decoded) {
+        throw new PermissionError('Você já está logado no sistema!');
+      }
+    }
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+}
+
+const checkRole = (roles: string[]) => {
+  return (req: Request, res: Response, next: NextFunction): void => {
     try {
-        const user = await User.findOne({ where: {email: req.body.email}});
-        if (!user) {
-            throw new PermissionError('E-mail e/ou senha incorretos');
-        } else {
-            const matchingPassword = await bcrypt.compare(req.body.password, user.password);
-            if(!matchingPassword) {
-                throw new PermissionError('E-mail e/ou senha incorretos');
-            }
-        }
-        
-        generateJWT(user, res);
-
-        res.status(statusCodes.noContent).end();
-    }
-    catch (error) {
-        next(error);
-    }
-}
-
-//checagem se o usuario ja esta logado
-function notLoggedIn(req, res, next) {
-    try {
-        const token = cookieExtractor(req);
-  
-        if (token) {
-            const decoded = jwt.verify(token, process.env.SECRET_KEY);
-            if (decoded) {
-                throw new PermissionError('Você já está logado no sistema!');
-            }
-        }
-        next();
+      !roles.includes(req.user.role) ? res.json('Sem permissão para realizar comando') : next();
     } catch (error) {
-        next(error);
+      next(error);
     }
-}
+  };
+};
 
-module.exports = {
-    loginMiddleware,
-    notLoggedIn,
-    verifyJWT,
-    //checkRole,
+export {
+  loginMiddleware,
+  notLoggedIn,
+  verifyJWT,
+  checkRole,
 };
