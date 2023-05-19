@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { Request, Response, NextFunction } from 'express';
-import { User } from '../domains/Usuarios/models/Usuario';
-import PermissionError from '../../errors/InvalidParamError';
-import statusCodes from '../../constants/statusCodes';
+import { User } from '../domains/Usuarios/models/Usuario.ts';
+import PermissionError from '../../errors/InvalidParamError.ts';
+import statusCodes from '../../constants/statusCodes.ts';
 
 interface DecodedToken {
   user: {

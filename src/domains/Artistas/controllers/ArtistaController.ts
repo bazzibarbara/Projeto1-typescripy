@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { ArtistaService } from '../services/ArtistaService';
+import { ArtistaService } from '../services/ArtistaService.ts';
 
 const router = express.Router();
 

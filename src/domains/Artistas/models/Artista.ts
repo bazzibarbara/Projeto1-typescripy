@@ -1,4 +1,4 @@
-import database from '../../../../database/index';
+import database from '../../../../database/index.ts';
 import { DataTypes, Model } from 'sequelize';
 
 interface ArtistaAttributes {

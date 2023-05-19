@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
-import database from '../../../../database/index';
-import Artista from '../../Artistas/models/Artista';
+import database from '../../../../database/index.ts';
+import Artista from '../../Artistas/models/Artista.ts';
 
 class Musica extends Model {
   public id!: number;

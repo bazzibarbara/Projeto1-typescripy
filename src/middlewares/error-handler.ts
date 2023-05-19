@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
-import InvalidParamError from '../../errors/InvalidParamError';
-import NotAuthorizedError from '../../errors/NotAuthorizedError';
-import TokenError from '../../errors/TokenError';
-import QueryError from '../../errors/QueryError';
+import InvalidParamError from '../../errors/InvalidParamError.ts';
+import NotAuthorizedError from '../../errors/NotAuthorizedError.ts';
+import TokenError from '../../errors/TokenError.ts';
+import QueryError from '../../errors/QueryError.ts';
 import { JsonWebTokenError } from 'jsonwebtoken';
-import statusCodes from '../../constants/statusCodes';
+import statusCodes from '../../constants/statusCodes.ts';
 
 function errorHandler(error: Error, req: Request, res: Response, next: NextFunction): void {
   let message = error.message;

@@ -1,6 +1,6 @@
-import Artista from '../models/Artista';
-import Musica from '../../Musicas/models/Musica';
-import QueryError from '../../../../errors/QueryError';
+import Artista from '../models/Artista.ts';
+import Musica from '../../Musicas/models/Musica.ts';
+import QueryError from '../../../../errors/QueryError.ts';
 
 class ArtistasService {
   /**@brief Adiciona um artista ao banco de dados. */

@@ -1,9 +1,9 @@
 import bcrypt from 'bcrypt';
-import Usuario from '../models/Usuario';
-import { userRoles } from '../constants/userRoles';
-import QueryError from '../../../../errors/QueryError';
-import PermissionError from '../../../../errors/PermissionError';
-import NotAuthorizedError from '../../../../errors/NotAuthorizedError';
+import Usuario from '../models/Usuario.ts';
+import { userRoles } from '../constants/userRoles.ts';
+import QueryError from '../../../../errors/QueryError.ts';
+import PermissionError from '../../../../errors/PermissionError.ts';
+import NotAuthorizedError from '../../../../errors/NotAuthorizedError.ts';
 
 class UsuarioService {
   async encryptPassword(password: string): Promise<string> {

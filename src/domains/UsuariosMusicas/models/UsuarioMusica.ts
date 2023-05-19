@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
-import database from '../../../../database/index';
-import Usuario from '../../Usuarios/models/Usuario';
-import Musica from '../../Musicas/models/Musica';
+import database from '../../../../database/index.ts';
+import Usuario from '../../Usuarios/models/Usuario.ts';
+import Musica from '../../Musicas/models/Musica.ts';
 
 const UsuarioMusica = database.define('UsuarioMusica', {
   id: {

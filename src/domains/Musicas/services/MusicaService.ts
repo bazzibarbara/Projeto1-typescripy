@@ -1,6 +1,6 @@
-import Artista from '../../Artistas/models/Artista';
-import Musica from '../models/Musica';
-import QueryError from '../../../../errors/QueryError';
+import Artista from '../../Artistas/models/Artista.ts';
+import Musica from '../models/Musica.ts';
+import QueryError from '../../../../errors/QueryError.ts';
 
 class MusicaService {
   /**@brief Deleta uma música.*/

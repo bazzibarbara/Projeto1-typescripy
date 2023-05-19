@@ -1,6 +1,6 @@
 import { DataTypes } from 'sequelize';
-import { userRoles } from '../constants/userRoles';
-import database from '../../../../database/index';
+import { userRoles } from '../constants/userRoles.ts';
+import database from '../../../../database/index.ts';
 
 const Usuario = database.define('Usuario', {
   id: {
