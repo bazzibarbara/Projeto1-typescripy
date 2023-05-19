@@ -2,10 +2,10 @@
  * Token de requisição inválido.
  */
 class TokenError extends Error {
-    constructor(msg) {
+    constructor(string msg) {
         super(msg);
         this.name = 'TokenError';
     }
 }
   
-module.exports = TokenError;
+export default TokenError;
