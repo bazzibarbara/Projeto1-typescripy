@@ -2,10 +2,10 @@
  * Usuário realiza uma ação proibida.
  */
 class PermissionError extends Error {
-    constructor(msg) {
+    constructor(string msg) {
         super(msg);
         this.name = 'PermissionError';
     }
 }
   
-module.exports = PermissionError;
+export default PermissionError;
