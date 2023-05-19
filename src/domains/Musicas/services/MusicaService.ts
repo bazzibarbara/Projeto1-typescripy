@@ -1,65 +1,66 @@
-const Artista = require('../../Artistas/models/Artista');
-const Musica = require('../models/Musica');
+import Artista from '../../Artistas/models/Artista';
+import Musica from '../models/Musica';
+import QueryError from '../../../../errors/QueryError';
 
-const QueryError = require('../../../../errors/QueryError');
+class MusicaService {
+  /**@brief Deleta uma música.*/
+  async deletarMusica(nome: string): Promise<void> {
+    const musica = await Musica.findOne({ where: { titulo: nome } });
 
-class MusicaService{
-
-    /**@brief Deleta uma musica.*/
-    async deletarMusica(nome){
-        
-        const musica = await Musica.findOne({ where: { titulo: nome } });
-
-        if (!musica){
-            throw new QueryError('Musica nao encontrada.');
-        }
-
-        Musica.destroy({ where: { titulo: nome } });
+    if (!musica) {
+      throw new QueryError('Música não encontrada.');
     }
 
-    
-    async obterMusicas(){
-        return await Musica.findAll();
+    await Musica.destroy({ where: { titulo: nome } });
+  }
+
+  async obterMusicas(): Promise<Musica[]> {
+    return await Musica.findAll();
+  }
+
+  /**@brief Busca uma música no banco de dados pelo nome.*/
+  async obterMusicaPorNome(nome: string): Promise<Musica> {
+    const musica = await Musica.findOne({ where: { titulo: nome } });
+
+    if (!musica) {
+      throw new QueryError('Música não encontrada.');
     }
 
-    /**@brief Busca uma musica no banco de dados pelo nome.*/
-    async obterMusicaPorNome(nome){
-        const musica = await Musica.findOne({ where: { titulo: nome } });
+    return musica;
+  }
 
-        if (!musica){
-            throw new QueryError('Musica nao encontrada.');
-        }
-            
-        return musica;
+  async obterArtistaPorMusica(nome: string): Promise<string> {
+    const musica = await Musica.findOne({ where: { titulo: nome }, include: [Artista] });
+
+    if (!musica) {
+      throw new QueryError('Música não encontrada.');
     }
 
-    async obterArtistaPorMusica(nome){
-        const musica = await Musica.findOne({ where: { titulo: nome }, include: [Artista] });
-        if (!musica){
-            throw new QueryError('Musica nao encontrada.');
-        }
-            
-        return musica.Artistum.nome;
+    return musica.Artistum.nome;
+  }
+
+  /**@brief Adiciona uma música ao banco.*/
+  async adicionarMusica(req_body: {
+    foto: string;
+    titulo: string;
+    categoria: string;
+    idArtista: number;
+  }): Promise<void> {
+    const { foto, titulo, categoria, idArtista } = req_body;
+    await Musica.create({ foto, titulo, categoria, idArtista });
+  }
+
+  /**@brief Filtra uma música pelo nome e altera a sua foto.*/
+  async editarFoto(nome: string, foto_str: string): Promise<void> {
+    const musica = await Musica.findOne({ where: { titulo: nome } });
+
+    if (!musica) {
+      throw new QueryError('Música não encontrada.');
     }
 
-    /**@brief Adiciona uma musica ao banco.*/
-    async adicionarMusica(req_body){
-        const { foto, titulo, categoria, idArtista } = req_body;
-        await Musica.create({ foto, titulo, categoria, idArtista });
-    }
-
-    /**@brief Filtra uma musica pelo nome e altera o seu numero de downloads.*/
-    async editarFoto(nome, foto_str){
-        const musica = await Musica.findOne({ where: { titulo: nome } });
-
-        if (!musica){
-            throw new QueryError('Musica nao encontrada.');
-        }
-
-        musica.foto = foto_str;
-        await musica.save();
-    }
-
+    musica.foto = foto_str;
+    await musica.save();
+  }
 }
 
-module.exports = new MusicaService;
+export default new MusicaService();
