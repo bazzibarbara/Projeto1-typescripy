@@ -5,12 +5,17 @@ import express, { Application } from 'express';
 import 'express-async-errors';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+{
+  "compilerOptions": {
+    "esModuleInterop": true
+  }
+}
 
-import musicaRouter from '../src/domains/Musicas/controllers/index';
-import artistaRouter from '../src/domains/Artistas/controllers/index';
-import usuarioRouter from '../src/domains/Usuarios/controllers/index';
-import usuarioMusicaRouter from '../src/domains/UsuariosMusicas/controllers/index';
-import errorHandler from '../src/middlewares/error-handler';
+import musicaRouter from '../src/domains/Musicas/controllers/MusicaController.ts';
+import artistaRouter from '../src/domains/Artistas/controllers/ArtistaController.ts';
+import usuarioRouter from '../src/domains/Usuarios/controllers/UsuarioController.ts';
+import usuarioMusicaRouter from '../src/domains/UsuariosMusicas/controllers/index.ts';
+import errorHandler from '../src/middlewares/error-handler.ts';
 
 const app: Application = express();
 const client_url: string | undefined = process.env.CLIENT_URL;
