@@ -1,16 +1,13 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import express, { Application } from 'express';
+
+import express from 'express';
+
+const app: express.Application = express();
 import 'express-async-errors';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-{
-  "compilerOptions": {
-    "esModuleInterop": true
-  }
-
-}
 
 import musicaRouter from '../src/domains/Musicas/controllers/MusicaController.ts';
 import artistaRouter from '../src/domains/Artistas/controllers/ArtistaController.ts';
