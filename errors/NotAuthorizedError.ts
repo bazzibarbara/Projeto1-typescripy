@@ -2,10 +2,10 @@
  * Usuário realiza uma ação proibida.
  */
 class NotAuthorizedError extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = 'NotAuthorizedError';
-    }
+  constructor(msg: string) {
+    super(msg);
+    this.name = 'NotAuthorizedError';
+  }
 }
-  
-module.exports = NotAuthorizedError;
+
+export default NotAuthorizedError;
