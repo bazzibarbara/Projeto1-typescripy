@@ -2,10 +2,10 @@
  * Rota inválida acessada.
  */
 class InvalidRouteError extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = 'InvalidRouteError';
-    }
+  constructor(msg: string) {
+    super(msg);
+    this.name = 'InvalidRouteError';
+  }
 }
-  
-module.exports = InvalidRouteError;
+
+export default InvalidRouteError;
