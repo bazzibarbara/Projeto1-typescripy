@@ -1,42 +1,38 @@
-/* eslint-disable no-undef */
-require('dotenv').config();
-const client_url = process.env.CLIENT_URL;
+import dotenv from 'dotenv';
+dotenv.config();
 
-require('express-async-errors');
-const express = require ('express');
-const app = express();
-const options: CorsOptions ={
-    origin: process.env.APP_URL,
-    credentials: true 
-};
-app.use(cors(options));
-const cors = require('cors');
+import express, { Application } from 'express';
+import 'express-async-errors';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+
+import musicaRouter from '../src/domains/Musicas/controllers/index';
+import artistaRouter from '../src/domains/Artistas/controllers/index';
+import usuarioRouter from '../src/domains/Usuarios/controllers/index';
+import usuarioMusicaRouter from '../src/domains/UsuariosMusicas/controllers/index';
+import errorHandler from '../src/middlewares/error-handler';
+
+const app: Application = express();
+const client_url: string | undefined = process.env.CLIENT_URL;
+
 app.use(cors(
-    {
-        origin: client_url,
-        credentials: true,
-    },
+  {
+    origin: client_url,
+    credentials: true,
+  },
 ));
 
-const cookieParser = require('cookie-parser');
 app.use(cookieParser());
-
 app.use(express.json());
-
 app.use(express.urlencoded({
-    extended:true
+  extended: true
 }));
 
-const musicaRouter = require('../src/domains/Musicas/controllers/MusicaController');
 app.use('/api/musica', musicaRouter);
-
-const artistaRouter = require('../src/domains/Artistas/controllers/ArtistaController');
 app.use('/api/artista', artistaRouter);
-
-const usuarioRouter = require('../src/domains/Usuarios/controllers/UsuarioController');
 app.use('/api/usuario', usuarioRouter);
+app.use('/api/usuariosMusicas', usuarioMusicaRouter);
 
-const errorHandler = require('../src/middlewares/error-handler.js');
 app.use(errorHandler);
 
-module.exports = app;
+export default app;
