@@ -1,11 +1,11 @@
 /**
- * O parâmetro passado não atende aos requerimentos exigidos.
+ * Rota inválida acessada.
  */
-class InvalidParamError extends Error {
-    constructor(msg) {
-        super(msg);
-        this.name = 'InvalidParamError';
-    }
+class InvalidRouteError extends Error {
+  constructor(msg: string) {
+    super(msg);
+    this.name = 'InvalidRouteError';
+  }
 }
-  
-module.exports = InvalidParamError;
+
+export default InvalidRouteError;
