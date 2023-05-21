@@ -1,8 +1,8 @@
 /**
  * Token de requisição inválido.
  */
-class TokenError extends Error {
-    constructor(msg) {
+export class TokenError extends Error {
+    constructor(msg: string) {
         super(msg);
         this.name = 'TokenError';
     }

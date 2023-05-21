@@ -1,11 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { Router, Request, Response, NextFunction } from 'express';
 import { UsuarioService } from '../service/UsuarioService';
-import { loginMiddleware,
-    verifyJWT,
-    checkRole,
-    notLoggedIn } from '../../../middlewares/auth-middlewares';
-import { userRoles } from '../../Usuarios/constants/userRoles';
+import { loginMiddleware, verifyJWT, checkRole, notLoggedIn } from '../../../middlewares/auth-middlewares';
+import { userRoles } from '../constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
 
 export const router = Router();
@@ -28,7 +25,7 @@ router.put('/:id',
     verifyJWT,
     async (req: Request, res: Response, next: NextFunction) => {
         try{
-            await UsuarioService.update(req.params.id, req.body, req.user);
+            await UsuarioService.update(req.params.id!, req.body, req.user!);
             res.status(statusCodes.noContent).end();
         }   catch (error) {
             next(error);
@@ -69,7 +66,7 @@ router.get('/all/:id',
     async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params;
         try{
-            const lerUsuarioId = await UsuarioService.findByPk(id);
+            const lerUsuarioId = await UsuarioService.obterUsuarioPorId(id);
             res.status(statusCodes.success).json(lerUsuarioId);
         }catch(error) {
             next(error);
@@ -78,13 +75,13 @@ router.get('/all/:id',
 );
 
 //atualiza um usuario (U do crud)
-router.put('/edit/:nome/:novoNome',
+router.put('/:id',
     verifyJWT,
     async (req: Request, res: Response, next: NextFunction) => {
         const { nome, novoNome } = req.params;
         
         try{
-            await UsuarioService.editarNome(nome, novoNome);
+            await UsuarioService.update(req.params.id!, req.body, req.user!);
             res.status(statusCodes.success).send(`Nome do usuario ${nome} editado com sucesso.`);
         }catch(error) {
             next(error);
@@ -93,14 +90,14 @@ router.put('/edit/:nome/:novoNome',
 );
 
 
-//deleta um usuario pelo nome (D do crud)
-router.delete('/delete/:id',
+//deleta um usuario pelo nome (ID do crud)
+router.delete(':id',
     verifyJWT,
     checkRole([userRoles.admin]),
     async (req: Request, res: Response, next: NextFunction) => {
         const { id } = req.params;
         try{
-            await UsuarioService.deletarUsuario(id);
+            await UsuarioService.delete(req.params.id!, req.user!.id);
             res.status(statusCodes.noContent).json({message: 'Usuario deletado com sucesso'});
         } catch(error) {
             next(error);

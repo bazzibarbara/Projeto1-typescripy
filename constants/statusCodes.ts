@@ -1,4 +1,4 @@
-const statusCodes = {
+export const statusCodes = {
     success: 200,
     created: 201,
     accepted: 202,
@@ -9,5 +9,3 @@ const statusCodes = {
     notFound: 404,
     internalServerError: 500,
 };
-  
-module.exports = statusCodes;

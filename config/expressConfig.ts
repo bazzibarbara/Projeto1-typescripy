@@ -8,19 +8,31 @@ dotenv.config();
 
 export const app: Express = express();
 
-const musicaRouter = require('../src/domains/Musicas/controllers/index.js');
+const options: CorsOptions = {
+    origin: process.env.APP_URL,
+    credentials: true
+  };
+app.use(cors(options));
+  
+app.use(cookieParser());
+  
+app.use(express.urlencoded({
+    extended: true,
+}));
+  
+app.use(express.json());
+
+import { router as musicaRouter } from '../src/domains/Musicas/controllers/index';
 app.use('/api/musica', musicaRouter);
 
-const artistaRouter = require('../src/domains/Artistas/controllers/index.js');
+import { router as artistaRouter } from '../src/domains/Artistas/controllers/index';
 app.use('/api/artista', artistaRouter);
 
-const usuarioRouter = require('../src/domains/Usuarios/controllers/index.js');
+import { router as usuarioRouter } from '../src/domains/Usuarios/controllers/index';
 app.use('/api/usuario', usuarioRouter);
 
-const usuarioMusicaRouter = require('../src/domains/UsuariosMusicas/controllers/index.js');
+import { router as usuarioMusicaRouter } from '../src/domains/UsuariosMusicas/controllers/index';
 app.use('/api/usuariosMusicas', usuarioMusicaRouter);
 
-const errorHandler = require('../src/middlewares/error-handler.js');
+import { errorHandler } from '../src/middlewares/error-handler';
 app.use(errorHandler);
-
-module.exports = app;

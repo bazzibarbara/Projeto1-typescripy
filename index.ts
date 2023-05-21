@@ -1,5 +1,8 @@
 /* eslint-disable no-undef */
-const app = require('./config/expressConfig');
-const port = process.env.PORT;
+import { app } from './config/expressConfig';
+import { getEnv } from '../Projeto1-typescripy/database/index'
+const port = getEnv('PORT');
 
-app.listen(port, console.log(`Server is running on port ${port}`));
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
