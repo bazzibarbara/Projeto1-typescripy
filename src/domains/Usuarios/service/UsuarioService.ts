@@ -20,21 +20,21 @@ export class UsuarioServiceClasse{
             throw new PermissionError('Não é possível criar um usuário com cargo de administrador!');
         }
 
-        const user = await Usuario.findOne({where: {email: body.email}});
+        const usuario = await Usuario.findOne({where: {email: body.email}});
 
-        if(user){
+        if(usuario){
             throw new QueryError('E-mail já cadastrado');
         }
 
-        const newUser = {
+        const novoUsuario = {
             nome: body.nome, 
             email: body.email, 
             senha: body.senha,
             cargo: body.cargo, 
         };
-        newUser.senha = await this.encryptPassword(body.senha);
+        novoUsuario.senha = await this.encryptPassword(body.senha);
         
-        await Usuario.create(newUser);
+        await Usuario.create(novoUsuario);
     }
 
     /**@brief Atualiza um usuario.*/
@@ -46,13 +46,13 @@ export class UsuarioServiceClasse{
             throw new NotAuthorizedError('Você não tem permissão para editar seu cargo');
         }
 
-        const user = await this.obterUsuarioPorId(id);
+        const usuario = await this.obterUsuarioPorId(id);
 
         if (body.senha){
             body.senha = await this.encryptPassword(body.senha);
         }
 
-        await user.update(body);
+        await usuario.update(body);
     }
 
     /**@brief Busca no banco todos os usuarios cadastrados.*/
@@ -75,12 +75,12 @@ export class UsuarioServiceClasse{
     }
     
     /**@brief Deleta um usuario.*/
-    async delete(id: string, idReqUser: string) {
-        if (idReqUser == id)
+    async delete(id: string, idReqUsuario: string) {
+        if (idReqUsuario == id)
             throw new PermissionError('Não é possível deletar o próprio usuário.');
 
-        const user = await this.obterUsuarioPorId(id);
-        await user.destroy();
+        const usuario = await this.obterUsuarioPorId(id);
+        await usuario.destroy();
     }
 
     async deletarUsuarioPorId(id: string){

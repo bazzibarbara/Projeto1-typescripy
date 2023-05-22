@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { Router, Request, Response, NextFunction } from 'express';
 import { UsuarioService } from '../service/UsuarioService';
 import { loginMiddleware, verifyJWT, checkRole, notLoggedIn } from '../../../middlewares/auth-middlewares';

@@ -11,8 +11,8 @@ export interface MusicInterface extends Model<InferAttributes<MusicInterface>, I
     categoria: string;
     createdAt: CreationOptional<Date>;
     updatedAt: CreationOptional<Date>;
-    addUser: HasManyAddAssociationMixin<UserInterface, UserInterface['id']>;
-    removeUser: HasManyRemoveAssociationMixin<UserInterface, UserInterface['id']>;
+    adicionaUsuario: HasManyAddAssociationMixin<UserInterface, UserInterface['id']>;
+    removeUsuario: HasManyRemoveAssociationMixin<UserInterface, UserInterface['id']>;
   }
 
 export const Musica = sequelize.define<MusicInterface>('Musica', {

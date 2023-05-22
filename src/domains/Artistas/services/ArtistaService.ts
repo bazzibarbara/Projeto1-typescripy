@@ -1,10 +1,9 @@
 import { Artista, ArtistInterface } from '../models/Artista';
-import { Musica, MusicInterface } from '../../Musicas/models/Musica';
+import { Musica } from '../../Musicas/models/Musica';
 import { QueryError } from '../../../../errors/QueryError';
 import { Attributes } from 'sequelize/types';
 
 export class ArtistasServiceClasse{
-
     /**@brief Adiciona um artista ao banco de dados. */
     async adicionarArtista(body: Attributes<ArtistInterface>){
         await Artista.create(body);
@@ -21,7 +20,6 @@ export class ArtistasServiceClasse{
 
     /**@brief Busca um artista no banco de dados pelo nome. */
     async obterArtistaPorNome(nome: string){
-
         const artista = await Artista.findOne({ where: { nome: `${nome}`} });
 
         if (!artista){

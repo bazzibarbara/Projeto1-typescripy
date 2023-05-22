@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { ArtistaService } from '../services/ArtistaService';
 import { verifyJWT, checkRole } from'../../../middlewares/auth-middlewares';
-import {userRoles } from '../../Usuarios/constants/userRoles';
+import { userRoles } from '../../Usuarios/constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
 
 export const router = Router();

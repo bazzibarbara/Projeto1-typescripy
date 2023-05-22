@@ -4,7 +4,6 @@ import { verifyJWT, checkRole } from '../../../middlewares/auth-middlewares';
 import { userRoles } from '../../Usuarios/constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
 
-
 export const router = Router();
 
 router.get('/all',

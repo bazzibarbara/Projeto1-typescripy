@@ -23,8 +23,8 @@ router.get('/users/:id',
     verifyJWT,
     async (req: Request, res: Response, next: NextFunction) => {
         try{
-            const songs = await UsuarioMusicaService.obterMusicasPorUsuario(req.params.id);
-            res.status(statusCodes.success).json(songs);
+            const musicas = await UsuarioMusicaService.obterMusicasPorUsuario(req.params.id);
+            res.status(statusCodes.success).json(musicas);
         }catch (error){
             next(error);
         }
@@ -35,8 +35,8 @@ router.get('/songs/:id',
     verifyJWT,
     async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const users = await UsuarioMusicaService.obterUsuariosPorMusica(req.params.id);
-            res.status(statusCodes.success).json(users);
+            const usuarios = await UsuarioMusicaService.obterUsuariosPorMusica(req.params.id);
+            res.status(statusCodes.success).json(usuarios);
         } catch (error) {
             next(error);
         }

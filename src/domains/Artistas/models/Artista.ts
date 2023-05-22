@@ -8,7 +8,7 @@ export interface ArtistInterface extends Model<InferAttributes<ArtistInterface>,
     foto: string; 
     createdAt: CreationOptional<Date>;
     updatedAt: CreationOptional<Date>;
-  }
+}
 
 export const Artista = sequelize.define<ArtistInterface>('Artista', {
     id: {
@@ -36,11 +36,12 @@ export const Artista = sequelize.define<ArtistInterface>('Artista', {
     createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-      },
-      updatedAt: {
+    },
+
+    updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-      },
+    },
 });
 
 Artista.sync({alter: false, force: false})
