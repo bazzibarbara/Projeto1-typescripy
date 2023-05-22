@@ -1,18 +1,19 @@
 /* eslint-disable no-unused-vars */
-const UsuarioMusica = require('../models/UsuarioMusica');
-const UsuarioService = require('../../Usuarios/service/UsuarioService');
-const MusicaService = require('../../Musicas/services/MusicaService');
-const Musica = require('../../Musicas/models/Musica');
-const Usuario = require('../../Usuarios/models/Usuario');
+import { UsuarioMusica } from '../models/UsuarioMusica';
+import { UsuarioService } from '../../Usuarios/service/UsuarioService';
+import { MusicaService } from '../../Musicas/services/MusicaService';
+import { Musica } from '../../Musicas/models/Musica';
+import { Usuario } from '../../Usuarios/models/Usuario';
 
-class UsuarioMusicaService{
-    async adicionarUsuarioMusica(idUsuario, idMusica){
+export class UsuarioMusicaServiceClasse{
+    async adicionarUsuarioMusica(idUsuario: string, idMusica: string){
         const usuario = await UsuarioService.obterUsuarioPorId(idUsuario);
         const musica = await MusicaService.obterMusicaPorId(idMusica);
+
         await UsuarioMusica.create({ idUsuario: usuario.id, idMusica: musica.id });
     }
 
-    async obterMusicasPorUsuario(userId){
+    async obterMusicasPorUsuario(userId: string){
         const musicas = await Musica.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: {
@@ -25,7 +26,7 @@ class UsuarioMusicaService{
         return musicas;
     }
     
-    async obterUsuariosPorMusica(songId){
+    async obterUsuariosPorMusica(songId: string){
         const usuarios = await Usuario.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: {
@@ -38,7 +39,7 @@ class UsuarioMusicaService{
         return usuarios;
     }
 
-    async deletarUsuarioMusica(idUsuario, idMusica){
+    async deletarUsuarioMusica(idUsuario: string, idMusica: string){
         const usuario = await UsuarioService.obterUsuarioPorId(idUsuario);
         const musica = await MusicaService.obterMusicaPorId(idMusica);
         await UsuarioMusica.destroy({
@@ -50,4 +51,4 @@ class UsuarioMusicaService{
     }
 }
 
-module.exports = new UsuarioMusicaService;
+export const UsuarioMusicaService = new UsuarioMusicaServiceClasse();
