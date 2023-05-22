@@ -10,7 +10,7 @@ export interface UserInterface extends Model<InferAttributes<UserInterface>, Inf
     cargo: string;
     createdAt: CreationOptional<Date>;
     updatedAt: CreationOptional<Date>;
-  }
+}
 
 export const Usuario = sequelize.define<UserInterface>('Usuario', {
     id: {
@@ -18,39 +18,37 @@ export const Usuario = sequelize.define<UserInterface>('Usuario', {
         primaryKey: true,
         autoIncrement: true,
         allowNull: false,
-        },
-        nome: {
+    },
+    nome: {
         type: DataTypes.STRING,
         allowNull: false,
-        },
-        email: {
+    },
+    email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        },
-        senha: {
+    },
+    senha: {
         type: DataTypes.STRING,
         allowNull: false,
-        },
-        cargo: {
+    },
+    cargo: {
         type: DataTypes.ENUM,
         values: [userRoles.admin, userRoles.user],
         allowNull: false,
-        },
-        createdAt: {
+    },
+    createdAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        },
-        updatedAt: {
+    },
+    updatedAt: {
         type: DataTypes.DATE,
         allowNull: false,
-        },
-    });
+    },
+});
 
 Usuario.sync({alter: true, force: false})
     .then(() => {
         console.log('Tabela de Usuarios foi (re)criada');
     })
     .catch((err) => console.log(err));
-
-module.exports = Usuario;

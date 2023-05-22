@@ -7,5 +7,3 @@ export class TokenError extends Error {
         this.name = 'TokenError';
     }
 }
-  
-module.exports = TokenError;

@@ -1,6 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { MusicaService } from '../services/MusicaService';
-import { verifyJWT, checkRole } from '../../../middlewares/auth-middlewares.js';
+import { verifyJWT, checkRole } from '../../../middlewares/auth-middlewares';
 import { userRoles } from '../../Usuarios/constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
 

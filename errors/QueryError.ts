@@ -7,5 +7,3 @@ export class QueryError extends Error {
         this.name = 'QueryError';
     }
 }
-  
-module.exports = QueryError;

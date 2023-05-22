@@ -60,7 +60,7 @@ export async function loginMiddleware(req: Request, res: Response, next: NextFun
         if (!user) {
             throw new PermissionError('E-mail e/ou senha incorretos');
         } else {
-            const matchingPassword = await compare(req.body.password, user.senha);
+            const matchingPassword = await compare(req.body.senha, user.senha);
             
             if(!matchingPassword) {
                 throw new PermissionError('E-mail e/ou senha incorretos');
@@ -95,7 +95,7 @@ export function notLoggedIn(req: Request, res: Response, next: NextFunction) {
 export const checkRole = (roles: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
         try {
-            !roles.includes(req.user!.role) ? res.json('Você não possui permissão para realizar essa ação') : next();
+            !roles.includes(req.user!.cargo) ? res.json('Você não possui permissão para realizar essa ação') : next();
         } catch(error){
             next(error);
         }

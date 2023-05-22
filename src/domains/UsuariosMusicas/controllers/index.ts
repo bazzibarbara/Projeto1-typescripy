@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-
 import { Router, Request, Response, NextFunction } from 'express';
 import { statusCodes } from '../../../../constants/statusCodes';
 import { verifyJWT } from '../../../middlewares/auth-middlewares';

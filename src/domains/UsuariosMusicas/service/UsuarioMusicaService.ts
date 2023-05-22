@@ -13,12 +13,12 @@ export class UsuarioMusicaServiceClasse{
         await UsuarioMusica.create({ idUsuario: usuario.id, idMusica: musica.id });
     }
 
-    async obterMusicasPorUsuario(userId: string){
+    async obterMusicasPorUsuario(idUsuario: string){
         const musicas = await Musica.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: {
                 model: Usuario,
-                where: { id: userId },
+                where: { id: idUsuario },
                 through: { attributes: [] },
             }
         });
@@ -26,12 +26,12 @@ export class UsuarioMusicaServiceClasse{
         return musicas;
     }
     
-    async obterUsuariosPorMusica(songId: string){
+    async obterUsuariosPorMusica(idMusica: string){
         const usuarios = await Usuario.findAll({
             attributes: { exclude: ['createdAt', 'updatedAt'] },
             include: {
                 model: Musica,
-                where: { id: songId },
+                where: { id: idMusica },
                 through: { attributes: [] },
             },
         });
