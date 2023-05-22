@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import {MusicaService} from '../services/MusicaService';
 import {verifyJWT, checkRole } from '../../../middlewares/auth-middlewares.js';
-import { userRoles } from '../constants/userRoles';
+import { userRoles } from '../../Usuarios/constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
 
 
@@ -90,5 +90,3 @@ router.delete('/delete/:nome',
         }
     }
 );
-
-module.exports = router;

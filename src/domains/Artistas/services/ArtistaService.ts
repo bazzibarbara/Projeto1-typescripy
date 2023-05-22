@@ -1,12 +1,12 @@
-const Artista = require('../models/Artista');
-const Musica = require('../../Musicas/models/Musica');
+import { Artista, ArtistInterface } from '../models/Artista';
+import { Musica, MusicInterface } from '../../Musicas/models/Musica';
+import { QueryError } from '../../../../errors/QueryError';
+import { Attributes } from 'sequelize/types';
 
-const QueryError = require('../../../../errors/QueryError');
-
-class ArtistasService{
+export class ArtistasServiceClasse{
 
     /**@brief Adiciona um artista ao banco de dados. */
-    async adicionarArtista(body){
+    async adicionarArtista(body: Attributes<ArtistInterface>){
         await Artista.create(body);
     }
 
@@ -20,7 +20,7 @@ class ArtistasService{
     }
 
     /**@brief Busca um artista no banco de dados pelo nome. */
-    async obterArtistaPorNome(nome){
+    async obterArtistaPorNome(nome: string){
 
         const artista = await Artista.findOne({ where: { nome: `${nome}`} });
 
@@ -31,7 +31,7 @@ class ArtistasService{
         return artista;
     }
 
-    async obterArtistaPorId(id){
+    async obterArtistaPorId(id: string){
         const artista = await Artista.findByPk(id);
 
         if (!artista){
@@ -41,23 +41,23 @@ class ArtistasService{
         return artista;
     }
 
-    async obterMusicasPorArtista(nome){
+    async obterMusicasPorArtista(nome: string){
         const artista = await Artista.findOne({ where: { nome: nome }, include: [Musica] });
 
         if (!artista){
             throw new QueryError('Artista nao encontrado.');
         }
             
-        return artista.Musicas;
+        return artista;
     }
 
-    async editarArtista(id, body){
+    async editarArtista(id: string, body: Attributes<ArtistInterface>){
         const artista = await this.obterArtistaPorId(id);
         await artista.update(body);
     }
 
     /**@brief Deleta uma artista filtrando pelo nome. */
-    async deletarArtista(id){
+    async deletarArtista(id: string){
         const artista = await Artista.findByPk(id);
 
         if (!artista){
@@ -68,4 +68,4 @@ class ArtistasService{
     }
 }
 
-module.exports = new ArtistasService();
+export const ArtistaService = new ArtistasServiceClasse();

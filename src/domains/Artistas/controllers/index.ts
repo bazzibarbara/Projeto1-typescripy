@@ -1,9 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import {ArtistaService} from '../services/ArtistaService';
-import {verifyJWT, checkRole } from'../../../middlewares/auth-middlewares.js';
-import {userRoles} from '../../Usuarios/constants/userRoles';
+import { ArtistaService } from '../services/ArtistaService';
+import { verifyJWT, checkRole } from'../../../middlewares/auth-middlewares.js';
+import {userRoles } from '../../Usuarios/constants/userRoles';
 import { statusCodes } from '../../../../constants/statusCodes';
+
 export const router = Router();
+
 router.get('/all', 
     verifyJWT,
     async(req:Request, res:Response, next:NextFunction) =>{
@@ -82,5 +84,3 @@ router.delete('/delete/:id',
         }
     }
 );
-
-module.exports = router;
