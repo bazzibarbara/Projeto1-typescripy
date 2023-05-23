@@ -23,12 +23,12 @@ export const Musica = sequelize.define<MusicInterface>('Musica', {
         allowNull: false
     },
 
-    foto: {
+    titulo: {
         type: DataTypes.STRING,
         allowNull: false
     },
 
-    titulo: {
+    foto: {
         type: DataTypes.STRING,
         allowNull: false
     },

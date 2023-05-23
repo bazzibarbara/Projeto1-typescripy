@@ -19,6 +19,7 @@ export class UsuarioMusicaServiceClasse{
             include: {
                 model: Usuario,
                 where: { id: idUsuario },
+                attributes: ['id'],
                 through: { attributes: [] },
             }
         });
@@ -28,10 +29,11 @@ export class UsuarioMusicaServiceClasse{
     
     async obterUsuariosPorMusica(idMusica: string){
         const usuarios = await Usuario.findAll({
-            attributes: { exclude: ['createdAt', 'updatedAt'] },
+            attributes: { exclude: ['senha', 'createdAt', 'updatedAt'] },
             include: {
                 model: Musica,
                 where: { id: idMusica },
+                attributes: ['id'],
                 through: { attributes: [] },
             },
         });
